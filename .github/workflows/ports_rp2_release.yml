@@ -1,0 +1,54 @@
+name: rp2 port release
+
+on:
+  push:
+    tags:
+      - 'v*'   # Only release when pushing tags like v1.22.2
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'micropython repo'
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        path: 'micropython repo'
+        fetch-depth: 0  # for tag and log retrieval
+    - name: Install packages
+      run: source tools/ci.sh && ci_rp2_setup
+    - name: Build
+      run: source tools/ci.sh && ci_rp2_build
+
+    - name: Upload firmware.uf2 as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: firmware.uf2
+        path: 'micropython repo/ports/rp2/build-RPI_PICO/firmware.uf2'
+
+    - name: Generate release notes
+      id: notes
+      run: |
+        echo "## Release for tag ${{ github.ref_name }}" > release.txt
+        echo "" >> release.txt
+        echo "This release reflects updates from the upstream MicroPython repository." >> release.txt
+        echo "" >> release.txt
+        echo "### Commits since previous tag:" >> release.txt
+        git log --oneline $(git describe --tags --abbrev=0 @^)..@ >> release.txt
+        echo "::set-output name=body::$(cat release.txt)"
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: Release ${{ github.ref_name }}
+        body: ${{ steps.notes.outputs.body }}
+        files: 'micropython repo/ports/rp2/build-RPI_PICO/firmware.uf2'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
