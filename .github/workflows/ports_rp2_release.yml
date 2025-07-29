@@ -21,7 +21,9 @@ jobs:
       with:
         path: 'micropython repo'
         fetch-depth: 0  # for tag and log retrieval
-        submodules: recursive
+    - name: Update all submodules recursively
+      run: git submodule update --init --recursive
+      working-directory: 'micropython repo'
     - name: Install packages
       run: source tools/ci.sh && ci_rp2_setup
     - name: Build
