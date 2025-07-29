@@ -27,7 +27,8 @@ jobs:
     - name: Install packages
       run: source tools/ci.sh && ci_rp2_setup
     - name: Build
-      run: source tools/ci.sh && ci_rp2_build
+      # Workaround: Suppress 'maybe-uninitialized' warnings as errors in pico-extras (upstream issue)
+      run: source tools/ci.sh && ci_rp2_build "CFLAGS_EXTRA=-Wno-error=maybe-uninitialized"
 
     - name: Upload firmware.uf2 as artifact
       uses: actions/upload-artifact@v4
