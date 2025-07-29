@@ -1,6 +1,7 @@
 name: Python code lint and formatting with ruff
 
-on: [push, pull_request]
+on: workflow_dispatch # disable this workflow
+# on: [push, pull_request]
 
 jobs:
   ruff:

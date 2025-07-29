@@ -1,12 +1,13 @@
 name: Build ports metadata
 
-on:
-  push:
-  pull_request:
-    paths:
-      - '.github/workflows/*.yml'
-      - 'tools/**'
-      - ports/**
+on: workflow_dispatch # disable this workflow
+# on:
+#   push:
+#   pull_request:
+#     paths:
+#       - '.github/workflows/*.yml'
+#       - 'tools/**'
+#       - ports/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
