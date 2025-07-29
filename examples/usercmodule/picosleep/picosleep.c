@@ -1,3 +1,18 @@
+#include "py/runtime.h"
+#include "pico/sleep.h"
+#include "pico/stdlib.h"
+#include <stdint.h>
+#include <string.h>
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include "hardware/clocks.h"
+#include "hardware/rosc.h"
+#include "hardware/structs/scb.h"
+#include "hardware/rtc.h"
+#include <sys/time.h>
+#include "pico/runtime_init.h"
+
 // --- Deep Sleep GPIO Wakeup Extension ---
 #define PICOSLEEP_WAKE_TIMER 0
 #define PICOSLEEP_WAKE_GPIO  1
@@ -29,27 +44,9 @@ static mp_obj_t picosleep_wake_reason(void) {
 }
 MP_DEFINE_CONST_FUN_OBJ_0(picosleep_wake_reason_obj, picosleep_wake_reason);
 
-#include "py/runtime.h"
-#include "pico/sleep.h"
-#include "pico/stdlib.h"
-#include <stdint.h>
-#include <string.h>
-#include <stdio.h>
-#include <time.h>
-#include <stdlib.h>
-#include "hardware/clocks.h"
-#include "hardware/rosc.h"
-#include "hardware/structs/scb.h"
-
-#include "hardware/rtc.h"
-#include <sys/time.h>
-#include "pico/runtime_init.h"
-
-
 static void sleep_callback(void) {
     return;
 }
-
 
 // from datetime_t to struct timespec
 static void datetime_to_timespec(const datetime_t *dt, struct timespec *ts) {
@@ -102,7 +99,6 @@ static void rtc_sleep_seconds(int8_t seconds_to_sleep) {
 }
 
 void recover_from_sleep(uint scb_orig, uint clock0_orig, uint clock1_orig){
-
     //Re-enable ring Oscillator control
     rosc_write(&rosc_hw->ctrl, ROSC_CTRL_ENABLE_BITS);
 
