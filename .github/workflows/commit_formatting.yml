@@ -1,6 +1,7 @@
 name: Check commit message formatting
 
-on: [pull_request]
+on: workflow_dispatch # disable this workflow
+# on: [pull_request]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

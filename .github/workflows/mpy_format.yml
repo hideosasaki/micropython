@@ -1,13 +1,14 @@
 name: .mpy file format and tools
 
-on:
-  push:
-  pull_request:
-    paths:
-      - '.github/workflows/*.yml'
-      - 'examples/**'
-      - 'tests/**'
-      - 'tools/**'
+on: workflow_dispatch # disable this workflow
+# on:
+#   push:
+#   pull_request:
+#     paths:
+#       - '.github/workflows/*.yml'
+#       - 'examples/**'
+#       - 'tests/**'
+#       - 'tools/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

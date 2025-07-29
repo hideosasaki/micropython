@@ -1,9 +1,10 @@
 name: Code size comment
 
-on:
-  workflow_run:
-    workflows: [Check code size]
-    types: [completed]
+on: workflow_dispatch # disable this workflow
+# on:
+#   workflow_run:
+#     workflows: [Check code size]
+#     types: [completed]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

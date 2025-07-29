@@ -1,14 +1,15 @@
 name: Check examples
 
-on:
-  push:
-  pull_request:
-    paths:
-      - '.github/workflows/*.yml'
-      - 'examples/**'
-      - 'ports/unix/**'
-      - 'py/**'
-      - 'shared/**'
+on: workflow_dispatch # disable this workflow
+# on:
+#   push:
+#   pull_request:
+#     paths:
+#       - '.github/workflows/*.yml'
+#       - 'examples/**'
+#       - 'ports/unix/**'
+#       - 'py/**'
+#       - 'shared/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

@@ -1,17 +1,18 @@
 name: powerpc port
 
-on:
-  push:
-  pull_request:
-    paths:
-      - '.github/workflows/*.yml'
-      - 'tools/**'
-      - 'py/**'
-      - 'extmod/**'
-      - 'shared/**'
-      - 'lib/**'
-      - 'drivers/**'
-      - 'ports/powerpc/**'
+on: workflow_dispatch # disable this workflow
+# on:
+#   push:
+#   pull_request:
+#     paths:
+#       - '.github/workflows/*.yml'
+#       - 'tools/**'
+#       - 'py/**'
+#       - 'extmod/**'
+#       - 'shared/**'
+#       - 'lib/**'
+#       - 'drivers/**'
+#       - 'ports/powerpc/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

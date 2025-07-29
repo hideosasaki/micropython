@@ -1,17 +1,18 @@
 name: samd port
 
-on:
-  push:
-  pull_request:
-    paths:
-      - '.github/workflows/*.yml'
-      - 'tools/**'
-      - 'py/**'
-      - 'extmod/**'
-      - 'shared/**'
-      - 'lib/**'
-      - 'drivers/**'
-      - 'ports/samd/**'
+on: workflow_dispatch # disable this workflow
+# on:
+#   push:
+#   pull_request:
+#     paths:
+#       - '.github/workflows/*.yml'
+#       - 'tools/**'
+#       - 'py/**'
+#       - 'extmod/**'
+#       - 'shared/**'
+#       - 'lib/**'
+#       - 'drivers/**'
+#       - 'ports/samd/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

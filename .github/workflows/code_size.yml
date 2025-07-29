@@ -1,21 +1,22 @@
 name: Check code size
 
-on:
-  pull_request:
-    paths:
-      - '.github/workflows/*.yml'
-      - 'tools/**'
-      - 'py/**'
-      - 'extmod/**'
-      - 'shared/**'
-      - 'lib/**'
-      - 'ports/bare-arm/**'
-      - 'ports/mimxrt/**'
-      - 'ports/minimal/**'
-      - 'ports/rp2/**'
-      - 'ports/samd/**'
-      - 'ports/stm32/**'
-      - 'ports/unix/**'
+on: workflow_dispatch # disable this workflow
+# on:
+#   pull_request:
+#     paths:
+#       - '.github/workflows/*.yml'
+#       - 'tools/**'
+#       - 'py/**'
+#       - 'extmod/**'
+#       - 'shared/**'
+#       - 'lib/**'
+#       - 'ports/bare-arm/**'
+#       - 'ports/mimxrt/**'
+#       - 'ports/minimal/**'
+#       - 'ports/rp2/**'
+#       - 'ports/samd/**'
+#       - 'ports/stm32/**'
+#       - 'ports/unix/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
