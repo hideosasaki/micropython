@@ -368,6 +368,12 @@ function ci_rp2_setup {
     ci_picotool_setup
 }
 
+function ci_rp2_build_with_cflags_extra {
+    # Workaround: Suppress 'maybe-uninitialized' warnings as errors in pico-extras (upstream issue)
+    export CFLAGS_EXTRA="-Wno-error=maybe-uninitialized"
+    ci_rp2_build
+}
+
 function ci_rp2_build {
     make ${MAKEOPTS} -C mpy-cross
     make ${MAKEOPTS} -C ports/rp2 submodules
