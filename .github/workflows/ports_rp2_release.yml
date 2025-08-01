@@ -29,6 +29,8 @@ jobs:
       run: source tools/ci.sh && ci_rp2_setup
 
     - name: Build (with workaround for pico-extras warnings)
+      env:
+        USER_C_MODULES: ../../examples/usercmodule/picosleep/micropython.cmake
       # CFLAGS_EXTRA is set to avoid build failure due to upstream warning-as-error
       run: source tools/ci.sh && ci_rp2_build_with_cflags_extra
 
