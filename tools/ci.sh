@@ -374,7 +374,7 @@ function ci_rp2_build_with_cflags_extra {
     # mpy-crossビルド時はUSER_C_MODULESをunset
     (unset USER_C_MODULES; make ${MAKEOPTS} -C mpy-cross)
     # rp2ビルド時のみUSER_C_MODULESをexport
-    export USER_C_MODULES=examples/usercmodule/picosleep/micropython.cmake
+    export USER_C_MODULES=../examples/usercmodule/picosleep/micropython.cmake
     make ${MAKEOPTS} -C ports/rp2 submodules
     make ${MAKEOPTS} -C ports/rp2
     make ${MAKEOPTS} -C ports/rp2 BOARD=RPI_PICO_W submodules
