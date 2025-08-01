@@ -7,6 +7,11 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/../../../lib/pico-sdk/src/rp2_comm
 include_directories(${CMAKE_CURRENT_LIST_DIR}/../../../lib/pico-sdk/src/rp2_common/hardware_clocks/include)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/../../../lib/pico-sdk/src/rp2_common/hardware_powman/include)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/../../../lib/pico-sdk/src/rp2_common/hardware_structs/include)
+# Add include paths for rp2350 targets as well
+include_directories(${CMAKE_CURRENT_LIST_DIR}/../../../lib/pico-sdk/src/rp2350/hardware_rtc/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/../../../lib/pico-sdk/src/rp2350/hardware_clocks/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/../../../lib/pico-sdk/src/rp2350/hardware_powman/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/../../../lib/pico-sdk/src/rp2350/hardware_structs/include)
 
 # Add our source files to the lib
 target_sources(usermod_picosleep INTERFACE
