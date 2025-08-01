@@ -371,7 +371,22 @@ function ci_rp2_setup {
 function ci_rp2_build_with_cflags_extra {
     # Workaround: Suppress 'maybe-uninitialized' warnings as errors in pico-extras (upstream issue)
     export CFLAGS_EXTRA="-Wno-error=maybe-uninitialized"
-    ci_rp2_build
+    # mpy-crossビルド時はUSER_C_MODULESをunset
+    (unset USER_C_MODULES; make ${MAKEOPTS} -C mpy-cross)
+    # rp2ビルド時のみUSER_C_MODULESをexport
+    export USER_C_MODULES=examples/usercmodule/picosleep/micropython.cmake
+    make ${MAKEOPTS} -C ports/rp2 submodules
+    make ${MAKEOPTS} -C ports/rp2
+    make ${MAKEOPTS} -C ports/rp2 BOARD=RPI_PICO_W submodules
+    make ${MAKEOPTS} -C ports/rp2 BOARD=RPI_PICO_W
+    make ${MAKEOPTS} -C ports/rp2 BOARD=RPI_PICO2 submodules
+    make ${MAKEOPTS} -C ports/rp2 BOARD=RPI_PICO2
+    make ${MAKEOPTS} -C ports/rp2 BOARD=W5100S_EVB_PICO submodules
+    # This build doubles as a build test for disabling threads in the config
+    make ${MAKEOPTS} -C ports/rp2 BOARD=W5100S_EVB_PICO CFLAGS_EXTRA=-DMICROPY_PY_THREAD=0
+    # Test building ninaw10 driver and NIC interface.
+    make ${MAKEOPTS} -C ports/rp2 BOARD=ARDUINO_NANO_RP2040_CONNECT submodules
+    make ${MAKEOPTS} -C ports/rp2 BOARD=ARDUINO_NANO_RP2040_CONNECT
 }
 
 function ci_rp2_build {
