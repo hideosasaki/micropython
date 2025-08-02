@@ -1,5 +1,5 @@
 # Force rp2040 platform for this usermodule
-set(PICO_PLATFORM "rp2040" CACHE STRING "Force rp2040 platform for picosleep usermodule")
+# set(PICO_PLATFORM "rp2040" CACHE STRING "Force rp2040 platform for picosleep usermodule")
 # Create an INTERFACE library for our C module.
 add_library(usermod_picosleep INTERFACE)
 
