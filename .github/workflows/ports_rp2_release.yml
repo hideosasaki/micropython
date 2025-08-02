@@ -45,12 +45,10 @@ jobs:
         git remote add upstream https://github.com/micropython/micropython.git || true
         TAG=""
         for t in $(git ls-remote --tags upstream | awk '{print $2}' | sed 's|refs/tags/||' | sort -Vr); do
-          # タグのコミットがローカルに無い場合はスキップ
-          if git rev-parse $t >/dev/null 2>&1; then
-            if git merge-base --is-ancestor $t HEAD 2>/dev/null; then
-              TAG=$t
-              break
-            fi
+          git fetch upstream tag $t >/dev/null 2>&1 || continue
+          if git merge-base --is-ancestor $t HEAD 2>/dev/null; then
+            TAG=$t
+            break
           fi
         done
         if [ -z "$TAG" ]; then
