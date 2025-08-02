@@ -42,18 +42,23 @@ jobs:
     - name: Get merged upstream stable tag name
       id: get_tag
       run: |
-        git remote add upstream https://github.com/micropython/micropython.git || true
+        # HEADの親コミットのタグ名を取得
         TAG=""
-        for t in $(git ls-remote --tags upstream | awk '{print $2}' | sed 's|refs/tags/||' | sort -Vr); do
-          git fetch upstream tag $t >/dev/null 2>&1 || continue
-          if git merge-base --is-ancestor $t HEAD 2>/dev/null; then
-            TAG=$t
+        for p in $(git log -1 --pretty=%P HEAD); do
+          T=$(git tag --points-at $p)
+          if [ -n "$T" ]; then
+            TAG=$T
             break
           fi
         done
         if [ -z "$TAG" ]; then
-          echo "No suitable upstream stable tag found merged into HEAD"
+          echo "No suitable parent tag found for HEAD"
           exit 1
+        fi
+        # originに同名タグがあれば日付を付与
+        if git ls-remote --tags origin | grep "refs/tags/$TAG$"; then
+          DATE=$(date +%Y%m%d)
+          TAG="${TAG}-${DATE}"
         fi
         echo "tag_name=$TAG" >> $GITHUB_OUTPUT
 
