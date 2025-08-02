@@ -43,14 +43,16 @@ jobs:
       id: get_tag
       run: |
         git remote add upstream https://github.com/micropython/micropython.git || true
-        git fetch upstream 'refs/tags/*:refs/tags/*'
-        # upstreamのv*タグのうちHEADにマージ済みのものをリストアップ
-        TAG=$(git tag --merged HEAD --sort=-v:refname | while read t; do
-          if git merge-base --is-ancestor upstream/$t HEAD 2>/dev/null; then
-            echo $t
-            break
+        TAG=""
+        for t in $(git ls-remote --tags upstream | awk '{print $2}' | sed 's|refs/tags/||' | sort -Vr); do
+          # タグのコミットがローカルに無い場合はスキップ
+          if git rev-parse $t >/dev/null 2>&1; then
+            if git merge-base --is-ancestor $t HEAD 2>/dev/null; then
+              TAG=$t
+              break
+            fi
           fi
-        done)
+        done
         if [ -z "$TAG" ]; then
           echo "No suitable upstream stable tag found merged into HEAD"
           exit 1
