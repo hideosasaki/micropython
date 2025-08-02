@@ -20,7 +20,7 @@ jobs:
       with:
         path: 'micropython repo'
         fetch-depth: 0
-        fetch-tags: true
+        fetch-tags: false
 
     - name: Update all submodules recursively
       run: git submodule update --init --recursive
@@ -45,7 +45,7 @@ jobs:
         git remote add upstream https://github.com/micropython/micropython.git || true
         git fetch upstream --tags
         # upstreamのv*タグのうちHEADにマージ済みのものをリストアップ
-        TAG=$(git tag --list 'v*' --merged HEAD --sort=-v:refname | while read t; do
+        TAG=$(git tag --merged HEAD --sort=-v:refname | while read t; do
           if git merge-base --is-ancestor upstream/$t HEAD 2>/dev/null; then
             echo $t
             break
