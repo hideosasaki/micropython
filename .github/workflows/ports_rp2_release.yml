@@ -38,13 +38,18 @@ jobs:
         name: firmware.uf2
         path: 'micropython repo/ports/rp2/build-RPI_PICO/firmware.uf2'
 
-    - name: Get tag name pointing at HEAD
+    - name: Get upstream stable tag name merged into HEAD
       id: get_tag
       run: |
-        TAG=$(git tag --points-at HEAD | grep '^v[0-9]' | head -n1)
+        # HEADに付いているタグがあればそれを使う
+        TAG=$(git tag --points-at HEAD | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)
         if [ -z "$TAG" ]; then
-          echo "No upstream tag found on HEAD"
-          exit 1
+          # HEADにタグが無い場合、HEADにマージ済みのupstream安定版タグ（v1.25.0など）を取得
+          TAG=$(git tag -l --merged HEAD | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1)
+          if [ -z "$TAG" ]; then
+            echo "No suitable upstream stable tag found merged into HEAD"
+            exit 1
+          fi
         fi
         echo "tag_name=$TAG" >> $GITHUB_OUTPUT
 
