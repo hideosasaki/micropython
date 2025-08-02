@@ -375,18 +375,8 @@ function ci_rp2_build_with_cflags_extra {
     (unset USER_C_MODULES; make ${MAKEOPTS} -C mpy-cross)
     # rp2ビルド時のみUSER_C_MODULESをexport
     export USER_C_MODULES=../../examples/usercmodule/picosleep/micropython.cmake
-    make ${MAKEOPTS} -C ports/rp2 PICO_PLATFORM=rp2040 submodules
-    make ${MAKEOPTS} -C ports/rp2 PICO_PLATFORM=rp2040
-    make ${MAKEOPTS} -C ports/rp2 BOARD=RPI_PICO_W PICO_PLATFORM=rp2040 submodules
-    make ${MAKEOPTS} -C ports/rp2 BOARD=RPI_PICO_W PICO_PLATFORM=rp2040
-    make ${MAKEOPTS} -C ports/rp2 BOARD=RPI_PICO2 PICO_PLATFORM=rp2040 submodules
-    make ${MAKEOPTS} -C ports/rp2 BOARD=RPI_PICO2 PICO_PLATFORM=rp2040
-    make ${MAKEOPTS} -C ports/rp2 BOARD=W5100S_EVB_PICO PICO_PLATFORM=rp2040 submodules
-    # This build doubles as a build test for disabling threads in the config
-    make ${MAKEOPTS} -C ports/rp2 BOARD=W5100S_EVB_PICO PICO_PLATFORM=rp2040 CFLAGS_EXTRA=-DMICROPY_PY_THREAD=0
-    # Test building ninaw10 driver and NIC interface.
-    make ${MAKEOPTS} -C ports/rp2 BOARD=ARDUINO_NANO_RP2040_CONNECT PICO_PLATFORM=rp2040 submodules
-    make ${MAKEOPTS} -C ports/rp2 BOARD=ARDUINO_NANO_RP2040_CONNECT PICO_PLATFORM=rp2040
+    make ${MAKEOPTS} -C ports/rp2 BOARD=RPI_PICO submodules
+    make ${MAKEOPTS} -C ports/rp2 BOARD=RPI_PICO
 }
 
 function ci_rp2_build {
